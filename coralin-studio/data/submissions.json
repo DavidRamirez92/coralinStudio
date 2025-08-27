@@ -1,0 +1,14 @@
+[
+  {
+    "id": "e8e00b4a-dad6-487c-8285-ea5f741c438a",
+    "receivedAt": "2025-08-27T21:22:21.869Z",
+    "firstName": "David",
+    "lastName": "Ramirez",
+    "email": "correo@correo.com",
+    "phone": "1166889977",
+    "birthDate": "1992-07-10",
+    "howDidYouHear": "instagram",
+    "medicalHistory": "Asma ",
+    "consent": true
+  }
+]

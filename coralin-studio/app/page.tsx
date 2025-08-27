@@ -36,9 +36,7 @@ type FormValues = z.infer<typeof FormSchema>;
 
 export default function Page() {
   const [status, setStatus] = useState<"idle" | "ok" | "error">("idle");
-  const [showOtherMedical, setShowOtherMedical] = useState(false);
-  const [showOtherEye, setShowOtherEye] = useState(false);
-  const [showOtherHow, setShowOtherHow] = useState(false);
+
 
   const {
     register,
@@ -239,7 +237,7 @@ export default function Page() {
 
           {/* SOBRE NOSOTROS */}
           <div className="border-b pb-6">
-            <h2 className="text-xl font-semibold text-gray-700 mb-6">SOBRE NOSOTROS</h2>
+            <h2 className="text-xl font-semibold text-gray-700 mb-6">Sobre Nosotros</h2>
             
             <div>
               <label className="block text-sm font-medium text-gray-600 mb-3">
@@ -268,7 +266,7 @@ export default function Page() {
 
           {/* ACUERDO */}
           <div className="border-b pb-6">
-            <h2 className="text-xl font-semibold text-gray-700 mb-6">ACUERDO</h2>
+            <h2 className="text-xl font-semibold text-gray-700 mb-6">Acuerdo</h2>
             
             <div className="space-y-4">
               <div className="flex items-start space-x-3">

@@ -47,7 +47,7 @@ export default function Page() {
   return (
     <main className="min-h-dvh bg-gray-50 py-10">
       <div className="mx-auto max-w-2xl rounded-2xl bg-white p-8 shadow">
-        <h1 className="text-2xl font-semibold">Ficha de cliente – Estudio</h1>
+        <h1 className="text-2xl font-semibold text-gray-600">Ficha de cliente – Estudio</h1>
         <p className="mt-1 text-sm text-gray-600">
           Completá tus datos para que podamos atenderte mejor.
         </p>
@@ -55,15 +55,15 @@ export default function Page() {
         <form onSubmit={handleSubmit(onSubmit)} className="mt-6 space-y-5">
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
-              <label className="block text-sm font-medium">Nombre</label>
-              <input {...register("firstName")} className="mt-1 w-full rounded-lg border p-2" />
+              <label className="block text-sm font-medium text-gray-600">Nombre</label>
+              <input {...register("firstName")} className="mt-1 w-full rounded-lg border p-2 text-gray-800" />
               {errors.firstName && (
                 <p className="mt-1 text-sm text-red-600">{errors.firstName.message}</p>
               )}
             </div>
             <div>
-              <label className="block text-sm font-medium">Apellido</label>
-              <input {...register("lastName")} className="mt-1 w-full rounded-lg border p-2" />
+              <label className="block text-sm font-medium text-gray-600">Apellido</label>
+              <input {...register("lastName")} className="mt-1 w-full rounded-lg border p-2 text-gray-800" />
               {errors.lastName && (
                 <p className="mt-1 text-sm text-red-600">{errors.lastName.message}</p>
               )}
@@ -72,19 +72,19 @@ export default function Page() {
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
-              <label className="block text-sm font-medium">Email</label>
+              <label className="block text-sm font-medium text-gray-600">Email</label>
               <input
                 {...register("email")}
                 type="email"
-                className="mt-1 w-full rounded-lg border p-2"
+                className="mt-1 w-full rounded-lg border p-2 text-gray-800"
               />
               {errors.email && (
                 <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>
               )}
             </div>
             <div>
-              <label className="block text-sm font-medium">Teléfono</label>
-              <input {...register("phone")} className="mt-1 w-full rounded-lg border p-2" />
+              <label className="block text-sm font-medium text-gray-600">Teléfono</label>
+              <input {...register("phone")} className="mt-1 w-full rounded-lg border p-2 text-gray-800" />
               {errors.phone && (
                 <p className="mt-1 text-sm text-red-600">{errors.phone.message as string}</p>
               )}
@@ -93,16 +93,16 @@ export default function Page() {
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div>
-              <label className="block text-sm font-medium">Fecha de nacimiento</label>
+              <label className="block text-sm font-medium text-gray-600">Fecha de nacimiento</label>
               <input
                 {...register("birthDate")}
                 type="date"
-                className="mt-1 w-full rounded-lg border p-2"
+                className="mt-1 w-full rounded-lg border p-2 text-gray-800"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium">¿Cómo se enteró?</label>
-              <select {...register("howDidYouHear")} className="mt-1 w-full rounded-lg border p-2">
+              <label className="block text-sm font-medium text-gray-600">¿Cómo se enteró de nosotros?</label>
+              <select {...register("howDidYouHear")} className="mt-1 w-full rounded-lg border p-2 text-gray-800">
                 <option value="instagram">Instagram</option>
                 <option value="google">Google</option>
                 <option value="amigo">Recomendación de un amigo</option>
@@ -113,11 +113,11 @@ export default function Page() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium">Historia médica / notas</label>
+            <label className="block text-sm font-medium text-gray-600">Historia médica / notas</label>
             <textarea
               {...register("medicalHistory")}
               rows={5}
-              className="mt-1 w-full rounded-lg border p-2"
+              className="mt-1 w-full rounded-lg border p-2 text-gray-800"
             />
             {errors.medicalHistory && (
               <p className="mt-1 text-sm text-red-600">

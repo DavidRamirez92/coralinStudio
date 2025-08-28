@@ -86,11 +86,11 @@ export default function Page() {
               {/* Primera columna */}
               <div className="space-y-4">
                 <div>
-                  <label className="block text-sm font-medium text-gray-600 mb-2">Título</label>
+                  <label className="block text-sm font-medium text-gray-600 mb-2">Género</label>
                   <select {...register("title")} className="w-full rounded-lg border p-3 text-gray-800">
-                    <option value="NB">NB</option>
-                    <option value="F">F</option>
-                    <option value="M">M</option>
+                    <option value="NB">No Binario</option>
+                    <option value="F">Femenino</option>
+                    <option value="M">Masculino</option>
                   </select>
                 </div>
                 
@@ -166,13 +166,13 @@ export default function Page() {
 
           {/* HISTORIAL MÉDICO */}
           <div className="border-b pb-6">
-            <h2 className="text-xl font-semibold text-gray-700 mb-6">Historial médico</h2>
+            <h2 className="text-xl font-semibold text-gray-700 mb-6">Historial Médico</h2>
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* Primera columna */}
               <div>
                 <label className="block text-sm font-medium text-gray-600 mb-3">
-                  Marque todas las que correspondan:
+                  Condiciones preexistentes:
                 </label>
                 <div className="space-y-2">
                   {["Piel Seca", "Piel sensible", "Alergia", "Sensibilidad ocular", "Alergia a las cintas"].map((condition) => (
@@ -204,7 +204,7 @@ export default function Page() {
               {/* Segunda columna */}
               <div>
                 <label className="block text-sm font-medium text-gray-600 mb-3">
-                  Marque si presenta alguna de ellas:
+                  Marque las enfermedades que presenta actualmente:
                 </label>
                 <div className="space-y-2">
                   {["Inflamación en el párpado", "Conjuntivitis", "Blefaritis", "Dermatitis", "Tiroides"].map((condition) => (
@@ -241,7 +241,7 @@ export default function Page() {
             
             <div>
               <label className="block text-sm font-medium text-gray-600 mb-3">
-                ¿Cómo supieste de nosotros?
+                ¿Cómo supiste de nosotros?
               </label>
               <select {...register("howDidYouHear")} className="w-full rounded-lg border p-3 text-gray-800 mb-4">
                 <option value="recomendacion">Recomendación</option>

@@ -1,8 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { writeFile, mkdir, readFile } from "fs/promises";
-import { existsSync } from "fs";
-import path from "path";
+import { ensureSchema, getPool } from "@/lib/pg";
 
 const Payload = z.object({
   // Información Personal
@@ -42,23 +40,41 @@ export async function POST(req: Request) {
       ...data,
     };
 
-    const dataDir = path.join(process.cwd(), "data");
-    const dbFile = path.join(dataDir, "submissions.json");
+    // Inicializa esquema en Postgres (si no existe)
+    await ensureSchema();
 
-    if (!existsSync(dataDir)) {
-      await mkdir(dataDir, { recursive: true });
-    }
-
-    let arr: unknown[] = [];
-    if (existsSync(dbFile)) {
-      const current = await readFile(dbFile, "utf-8");
-      if (current.trim().length) {
-        arr = JSON.parse(current);
-      }
-    }
-
-    arr.push(record);
-    await writeFile(dbFile, JSON.stringify(arr, null, 2), "utf-8");
+    const pool = getPool();
+    await pool.query(
+      `INSERT INTO submissions (
+        id, receivedAt, title, firstName, address, state, phone, birthDate,
+        postalCode, email, medicalConditions, otherMedicalConditions, eyeConditions,
+        otherEyeConditions, howDidYouHear, agreement1, agreement2, agreement3
+      ) VALUES (
+        $1, $2, $3, $4, $5, $6, $7, $8,
+        $9, $10, $11, $12, $13,
+        $14, $15, $16, $17
+      )`,
+      [
+        record.id,
+        record.receivedAt,
+        record.title,
+        record.firstName,
+        record.address,
+        record.state,
+        record.phone,
+        record.birthDate,
+        record.postalCode,
+        record.email,
+        JSON.stringify(record.medicalConditions),
+        record.otherMedicalConditions ?? null,
+        JSON.stringify(record.eyeConditions),
+        record.otherEyeConditions ?? null,
+        record.howDidYouHear,
+        record.agreement1,
+        record.agreement2,
+        record.agreement3,
+      ]
+    );
 
     return NextResponse.json({ ok: true });
   } catch (err) {

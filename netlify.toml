@@ -6,6 +6,7 @@
 [functions]
   node_bundler = "esbuild"
   external_node_modules = ["pg"]
+  # directory = "netlify/functions"   # (opcional, por defecto es esta)
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"

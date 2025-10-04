@@ -1,104 +1,68 @@
-
+// netlify/functions/submit.ts
 import type { Handler } from '@netlify/functions';
-import { ensureSchema, getPool } from '../../lib/pg'; // ajustá la ruta si tu pg.ts está en otro lado
+import { ensureSchema, getPool } from '../../lib/pg'; // ruta desde coralin-studio/netlify/functions
 import { randomUUID } from 'crypto';
 
 const handler: Handler = async (event) => {
-  // Sólo POST
-  if (event.httpMethod === 'OPTIONS') {
-    return { statusCode: 204, body: '' };
-  }
+  if (event.httpMethod === 'OPTIONS') return { statusCode: 204, body: '' };
   if (event.httpMethod !== 'POST') {
-    return {
-      statusCode: 405,
-      body: JSON.stringify({ error: 'Method Not Allowed' }),
-    };
+    return { statusCode: 405, body: JSON.stringify({ error: 'Method Not Allowed' }) };
   }
 
   try {
     if (!process.env.DATABASE_URL) {
-      return {
-        statusCode: 500,
-        body: JSON.stringify({ error: 'DATABASE_URL no está configurada' }),
-      };
+      return { statusCode: 500, body: JSON.stringify({ error: 'DATABASE_URL no está configurada' }) };
     }
 
-    const body = event.body || '{}';
-    const data = JSON.parse(body);
+    const raw = event.body || '{}';
+    const data = JSON.parse(raw);
 
-    // === Validaciones duras para lo que tu front promete enviar ===
+    // Honeypot simple
+    if (typeof data.honeypot === 'string' && data.honeypot.trim() !== '') {
+      return { statusCode: 200, body: JSON.stringify({ ok: true }) };
+    }
+
+    // Requeridos de texto
     const reqStr = (v: unknown) => typeof v === 'string' && v.trim().length > 0;
-    const reqBoolTrue = (v: unknown) => v === true; // tus 3 checkboxes deben venir en true
-
-    const requiredStringFields: Array<keyof typeof data> = [
-      'title',
-      'firstName',
-      'address',
-      'state',
-      'phone',
-      'birthDate',
-      'postalCode',
-      'email',
-      'howDidYouHear',
-    ];
-
-    for (const f of requiredStringFields) {
+    const required = ['title','firstName','address','state','phone','birthDate','postalCode','email','howDidYouHear'];
+    for (const f of required) {
       if (!reqStr(data[f])) {
-        return {
-          statusCode: 400,
-          body: JSON.stringify({ error: `Campo inválido: ${String(f)}` }),
-        };
+        return { statusCode: 400, body: JSON.stringify({ error: `Campo inválido: ${f}` }) };
       }
     }
 
-    // arrays (checkboxes múltiples)
-    const toArray = (v: unknown) => {
-      if (Array.isArray(v)) return v.map(String);
-      if (typeof v === 'string' && v.trim()) {
-        try {
-          const parsed = JSON.parse(v);
-          return Array.isArray(parsed) ? parsed.map(String) : [];
-        } catch {
-          return [];
-        }
-      }
-      return [];
-    };
-
-    const medicalConditions = toArray(data.medicalConditions);
-    const eyeConditions = toArray(data.eyeConditions);
-
-    if (medicalConditions.length === 0) {
-      return { statusCode: 400, body: JSON.stringify({ error: 'medicalConditions requerido' }) };
-    }
-    if (eyeConditions.length === 0) {
-      return { statusCode: 400, body: JSON.stringify({ error: 'eyeConditions requerido' }) };
-    }
-
-    // acuerdos (deben venir true por tu esquema)
-    if (!reqBoolTrue(data.agreement1) || !reqBoolTrue(data.agreement2) || !reqBoolTrue(data.agreement3)) {
+    // Booleans requeridos (deben ser true)
+    if (data.agreement1 !== true || data.agreement2 !== true || data.agreement3 !== true) {
       return { statusCode: 400, body: JSON.stringify({ error: 'Debes aceptar todos los términos' }) };
     }
 
-    // "otro" de howDidYouHear → compactamos en una sola columna (texto)
-    // Si user selecciona "otro" y escribió algo, almacenamos "otro: <texto>"
+    // Arrays (permitimos vacíos)
+    const toArray = (v: unknown) => {
+      if (Array.isArray(v)) return v.map(String);
+      if (typeof v === 'string' && v.trim()) {
+        try { const arr = JSON.parse(v); return Array.isArray(arr) ? arr.map(String) : []; } catch { return []; }
+      }
+      return [];
+    };
+    const medicalConditions = toArray(data.medicalConditions);
+    const eyeConditions = toArray(data.eyeConditions);
+
+    // "otro" en howDidYouHear (si viene texto lo anexamos)
     let howDidYouHear: string = String(data.howDidYouHear);
-    if (howDidYouHear === 'otro' && reqStr(data.otherHowDidYouHear)) {
-      howDidYouHear = `otro: ${String(data.otherHowDidYouHear).trim()}`;
+    if (howDidYouHear === 'otro' && typeof data.otherHowDidYouHear === 'string' && data.otherHowDidYouHear.trim()) {
+      howDidYouHear = `otro: ${data.otherHowDidYouHear.trim()}`;
     }
 
-    // opcionales
     const otherMedicalConditions =
       typeof data.otherMedicalConditions === 'string' && data.otherMedicalConditions.trim()
-        ? String(data.otherMedicalConditions).trim()
+        ? data.otherMedicalConditions.trim()
         : null;
 
     const otherEyeConditions =
       typeof data.otherEyeConditions === 'string' && data.otherEyeConditions.trim()
-        ? String(data.otherEyeConditions).trim()
+        ? data.otherEyeConditions.trim()
         : null;
 
-    // Garantizamos esquema (idempotente)
     await ensureSchema();
 
     const client = await getPool().connect();
@@ -141,12 +105,7 @@ const handler: Handler = async (event) => {
       ];
 
       const { rows } = await client.query(sql, params);
-
-      return {
-        statusCode: 201,
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ok: true, submission: rows[0] }),
-      };
+      return { statusCode: 201, headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ok: true, submission: rows[0] }) };
     } finally {
       client.release();
     }

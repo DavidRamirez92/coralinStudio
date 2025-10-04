@@ -8,18 +8,18 @@ import { zodResolver } from "@hookform/resolvers/zod";
 const FormSchema = z.object({
   // Información Personal
   title: z.enum(["NB", "F", "M"]),
-  firstName: z.string().min(1, "Requerido"),
+  firstName: z.string().min(3, "Requerido"),
   address: z.string().min(1, "Requerido"),
   state: z.string().min(1, "Requerido"),
   phone: z.string().min(1, "Requerido"),
   birthDate: z.string().min(1, "Requerido"),
   postalCode: z.string().min(1, "Requerido"),
-  email: z.string().email("Email inválido"),
+  email: z.email("Email inválido"),
   
   // Historial médico
-  medicalConditions: z.array(z.string()).min(1, "Selecciona al menos una opción"),
+  medicalConditions: z.array(z.string()).optional(),
   otherMedicalConditions: z.string().optional(),
-  eyeConditions: z.array(z.string()).min(1, "Selecciona al menos una opción"),
+  eyeConditions: z.array(z.string()).optional(),
   otherEyeConditions: z.string().optional(),
   
   // Sobre nosotros
@@ -27,9 +27,9 @@ const FormSchema = z.object({
   otherHowDidYouHear: z.string().optional(),
   
   // Acuerdos
-  agreement1: z.literal(true).refine(val => val === true, { message: "Debes aceptar este término" }),
-  agreement2: z.literal(true).refine(val => val === true, { message: "Debes aceptar este término" }),
-  agreement3: z.literal(true).refine(val => val === true, { message: "Debes aceptar este término" }),
+  agreement1: z.literal(true,"Debes aceptar este término"),
+  agreement2: z.literal(true,"Debes aceptar este término"),
+  agreement3: z.literal(true,"Debes aceptar este término"),
 });
 
 type FormValues = z.infer<typeof FormSchema>;

@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Coralin Studio",
-  description: "Estetica belleza y salud para la mujer",
+  description: "Belleza y bienestar",
 };
 
 export default function RootLayout({

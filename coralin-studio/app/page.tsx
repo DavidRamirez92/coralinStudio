@@ -175,7 +175,7 @@ export default function Page() {
                   Condiciones preexistentes:
                 </label>
                 <div className="space-y-2">
-                  {["Piel Seca", "Piel sensible", "Alergia", "Sensibilidad ocular", "Alergia a las cintas"].map((condition) => (
+                  {["Piel Seca", "Piel sensible","Piel grasa","Piel Porosa", "Alergia", "Sensibilidad ocular", "Alergia a las cintas"].map((condition) => (
                     <label key={condition} className="flex items-center space-x-2">
                       <input
                         type="checkbox"

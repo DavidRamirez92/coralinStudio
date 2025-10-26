@@ -111,7 +111,7 @@ export default function Page() {
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-gray-600 mb-2">
+                <label className="block text-sm font-medium text-gray-800 mb-2">
                   Nombre Completo
                 </label>
                 <input
@@ -126,7 +126,7 @@ export default function Page() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-600 mb-2">
+                <label className="block text-sm font-medium text-gray-800 mb-2">
                   E-mail
                 </label>
                 <input
@@ -142,7 +142,7 @@ export default function Page() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-600 mb-2">
+                <label className="block text-sm font-medium text-gray-800 mb-2">
                   Fecha de nacimiento
                 </label>
                 <input
@@ -158,7 +158,7 @@ export default function Page() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-600 mb-2">
+                <label className="block text-sm font-medium text-gray-800 mb-2">
                   Edad
                 </label>
                 <input
@@ -176,12 +176,12 @@ export default function Page() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-600 mb-2">
+                <label className="block text-sm font-medium text-gray-800 mb-2">
                   Género
                 </label>
                 <select
                   {...register("genero")}
-                  className="w-full rounded-lg border p-3"
+                  className="w-full rounded-lg border text-gray-800 p-3"
                 >
                   <option value="F">Femenino</option>
                   <option value="M">Masculino</option>
@@ -190,7 +190,7 @@ export default function Page() {
               </div>
 
               <div className="md:col-span-3">
-                <label className="block text-sm font-medium text-gray-600 mb-2">
+                <label className="block text-sm font-medium text-gray-800 mb-2">
                   Dirección
                 </label>
                 <input
@@ -212,7 +212,7 @@ export default function Page() {
                 <h3 className="text-xl font-semibold text-gray-700">
                   Información Médica
                 </h3>
-                <p className="text-sm text-gray-600 mb-4">
+                <p className="text-sm text-gray-800 mb-4">
                   Marca las opciones que correspondan:
                 </p>
 
@@ -254,7 +254,7 @@ export default function Page() {
 
                   {mostrarMedicacionDetalle && (
                     <div className="ml-6">
-                      <label className="block text-sm font-medium text-gray-600 mb-1">
+                      <label className="block text-sm font-medium text-gray-800 mb-1">
                         Detallar
                       </label>
                       <input
@@ -297,7 +297,7 @@ export default function Page() {
 
                   {mostrarAlergiaDetalle && (
                     <div className="ml-6">
-                      <label className="block text-sm font-medium text-gray-600 mb-1">
+                      <label className="block text-sm font-medium text-gray-800 mb-1">
                         Detallar
                       </label>
                       <input
@@ -315,13 +315,13 @@ export default function Page() {
                 <h3 className="text-xl font-semibold text-gray-700">
                   Historial de la piel
                 </h3>
-                <p className="text-sm text-gray-600 mb-4">
+                <p className="text-sm text-gray-800 mb-4">
                   Marca si alguna corresponde con tu historial:
                 </p>
 
                 <div className="space-y-2">
-                  <label className="flex items-center gap-2">
-                    <input type="checkbox" {...register("botox")} className="rounded border-gray-300" />
+                  <label className="flex items-center gap-2 text-gray-600">
+                    <input type="checkbox" {...register("botox")} className="rounded border-gray-800" />
                     <span>Botox</span>
                   </label>
 

@@ -20,8 +20,8 @@ export default function FormsLayout({
           {/* <Link href="/forms/formManos" className="text-gray-600 hover:text-gray-900">
             Form. Manos
           </Link> */}
-          <Link href="/forms/formMicropigmentacionLabios" className="text-gray-600 hover:text-gray-900">
-            Form. Micropigmentación de Labios
+          <Link href="/forms/formularioMicropigmentacion" className="text-gray-600 hover:text-gray-900">
+            Micropigmentación de Labios
           </Link>
         </nav>
       </header>

@@ -17,7 +17,7 @@ type RenderProps<TValues extends FieldValues> = {
   isSubmitting: boolean;
 };
 
-type ConsentFormProps<TSchema extends z.AnyZodObject> = {
+type ConsentFormProps<TSchema extends z.ZodObject<any>> = {
   title: string;
   schema: TSchema;
   // 👈 defaultValues deben matchear el INPUT del schema
@@ -29,7 +29,7 @@ type ConsentFormProps<TSchema extends z.AnyZodObject> = {
   errorMessage?: string;
 };
 
-export default function ConsentForm<TSchema extends z.AnyZodObject>({
+export default function ConsentForm<TSchema extends z.ZodObject<any>>({
   title,
   schema,
   defaultValues,

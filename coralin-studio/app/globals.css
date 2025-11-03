@@ -4,27 +4,146 @@
 
 @import "tailwindcss";
 
+/* Brand palette: soft blush + warm neutrals + subtle gold */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fffafc; /* soft blush base */
+  --foreground: #2a1f1f; /* deep warm neutral */
+
+  /* Brand colors */
+  --brand-50: #fff5f8;
+  --brand-100: #ffe9f0;
+  --brand-200: #ffd2e0;
+  --brand-300: #ffb7cd;
+  --brand-400: #ff96b6;
+  --brand-500: #f4719a; /* primary */
+  --brand-600: #e35187;
+  --brand-700: #c43a72;
+  --brand-800: #9f2f5c;
+  --brand-900: #7f284b;
+
+  /* Accent (subtle gold, for details only) */
+  --gold-300: #f3e4c6;
+  --gold-500: #d9bf86;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-brand-50: var(--brand-50);
+  --color-brand-100: var(--brand-100);
+  --color-brand-200: var(--brand-200);
+  --color-brand-300: var(--brand-300);
+  --color-brand-400: var(--brand-400);
+  --color-brand-500: var(--brand-500);
+  --color-brand-600: var(--brand-600);
+  --color-brand-700: var(--brand-700);
+  --color-brand-800: var(--brand-800);
+  --color-brand-900: var(--brand-900);
+  --color-gold-300: var(--gold-300);
+  --color-gold-500: var(--gold-500);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-display: var(--font-display);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0f0a0c;
+    --foreground: #f5e9ef;
   }
 }
 
+/* Elegant global background: soft blush gradient with subtle texture */
 body {
-  background: var(--background);
+  background: radial-gradient(1200px 600px at 20% -10%, var(--brand-50), transparent 60%),
+    radial-gradient(1000px 500px at 100% 0%, var(--brand-100), transparent 50%),
+    linear-gradient(180deg, var(--background), #fff);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), system-ui, -apple-system, Segoe UI, Roboto,
+    Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+}
+
+/* Display font utility for headings */
+.font-display {
+  font-family: var(--font-display), Georgia, "Times New Roman", serif;
+}
+
+/* Reusable UI touches */
+.brand-card {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid var(--brand-100);
+  border-radius: 1rem;
+  box-shadow: 0 10px 25px rgba(31, 20, 25, 0.08), 0 2px 8px rgba(31, 20, 25, 0.04);
+}
+
+/* Default typography inside brand cards */
+.brand-card h1 {
+  font-family: var(--font-display), Georgia, "Times New Roman", serif;
+  color: var(--brand-900);
+}
+.brand-card h2 {
+  color: var(--brand-900);
+}
+
+/* Form controls inside brand cards */
+.brand-card input:not([type="checkbox"]):not([type="radio"]),
+.brand-card select,
+.brand-card textarea {
+  border: 1px solid var(--brand-200);
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+  color: var(--foreground);
+  background: white;
+}
+.brand-card input:not([type="checkbox"]):not([type="radio"]):focus,
+.brand-card select:focus,
+.brand-card textarea:focus {
+  outline: none;
+  border-color: var(--brand-400);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--brand-300) 45%, transparent);
+}
+.brand-card input[type="checkbox"] {
+  border-color: var(--brand-300);
+}
+
+.brand-card button[type="submit"] {
+  background-image: linear-gradient(90deg, var(--brand-600), var(--brand-500), var(--brand-400));
+  color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 20px rgba(228, 81, 135, 0.25);
+}
+.brand-card button[type="submit"]:hover {
+  filter: saturate(1.05) brightness(1.02);
+}
+
+.btn-primary {
+  background-image: linear-gradient(90deg, var(--brand-600), var(--brand-500), var(--brand-400));
+  color: white;
+  border-radius: 0.75rem;
+  box-shadow: 0 8px 20px rgba(228, 81, 135, 0.25);
+}
+.btn-primary:hover {
+  filter: saturate(1.05) brightness(1.02);
+}
+.btn-primary:disabled {
+  opacity: 0.65;
+}
+
+.input-field {
+  border: 1px solid var(--brand-200);
+  border-radius: 0.75rem;
+  padding: 0.75rem;
+}
+.input-field:focus {
+  outline: none;
+  border-color: var(--brand-400);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--brand-300) 45%, transparent);
+}
+
+.section-title {
+  color: var(--brand-900);
+}
+
+.subtle-divider {
+  border-color: var(--brand-100);
 }

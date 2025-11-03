@@ -216,7 +216,7 @@ export default function Page() {
                   Marca las opciones que correspondan:
                 </p>
 
-                <div className="space-y-2">
+                <div className="space-y-2 text-sm text-gray-700">
                   <label className="flex items-center gap-2">
                     <input type="checkbox" {...register("embarazada")} className="rounded border-gray-300" />
                     <span>¿Estás embarazada?</span>
@@ -319,38 +319,38 @@ export default function Page() {
                   Marca si alguna corresponde con tu historial:
                 </p>
 
-                <div className="space-y-2">
-                  <label className="flex items-center gap-2 text-gray-600">
-                    <input type="checkbox" {...register("botox")} className="rounded border-gray-800" />
+                <div className="space-y-2 text-sm text-gray-700">
+                  <label className="flex items-center space-x-2">
+                    <input type="checkbox" {...register("botox")} className="rounded border-gray-300" />
                     <span>Botox</span>
                   </label>
 
-                  <label className="flex items-center gap-2">
+                  <label className="flex items-center space-x-2">
                     <input type="checkbox" {...register("exfoliacionQuimica")} className="rounded border-gray-300" />
                     <span>Exfoliación Química</span>
                   </label>
 
-                  <label className="flex items-center gap-2">
+                  <label className="flex items-center space-x-2">
                     <input type="checkbox" {...register("acne")} className="rounded border-gray-300" />
                     <span>Acné/ tratamiento cutáneo</span>
                   </label>
 
-                  <label className="flex items-center gap-2">
+                  <label className="flex items-center space-x-2">
                     <input type="checkbox" {...register("lunares")} className="rounded border-gray-300" />
                     <span>Lunares en las cejas</span>
                   </label>
 
-                  <label className="flex items-center gap-2">
+                  <label className="flex items-center space-x-2">
                     <input type="checkbox" {...register("cirugiaFacial")} className="rounded border-gray-300" />
                     <span>Cirugía Facial</span>
                   </label>
 
-                  <label className="flex items-center gap-2">
+                  <label className="flex items-center space-x-2">
                     <input type="checkbox" {...register("transplanteCejas")} className="rounded border-gray-300" />
                     <span>Transplante de Cejas</span>
                   </label>
 
-                  <label className="flex items-center gap-2">
+                  <label className="flex items-center space-x-2">
                     <input type="checkbox" {...register("sangradoExcesivo")} className="rounded border-gray-300" />
                     <span>Sangrado Excesivo</span>
                   </label>
@@ -360,7 +360,7 @@ export default function Page() {
                     <span>¿Te has realizado algún maquillaje permanente</span>
                   </label>
 
-                  <label className="flex items-center gap-2">
+                  <label className="flex items-center space-x-2">
                     <input type="checkbox" {...register("inyectadoAcidoHialuronico")} className="rounded border-gray-300" />
                     <span>¿Te has inyectado en la actualidad ácido hialurónico?</span>
                   </label>

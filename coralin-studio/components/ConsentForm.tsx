@@ -51,7 +51,7 @@ export default function ConsentForm<TSchema extends z.ZodObject<any>>({
     watch,
     formState: { errors, isSubmitting },
     reset,
-  } = useForm<TInput, any, TOutput>({
+  } = useForm<TInput, unknown, TOutput>({
     resolver: zodResolver(schema),
     defaultValues: defaultValues as DefaultValues<TInput>,
   });

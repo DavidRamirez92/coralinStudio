@@ -75,7 +75,7 @@ export default function Page() {
   return (
     <main className="min-h-dvh bg-gray-50 py-10">
       <div className="mx-auto max-w-4xl rounded-2xl bg-white p-8 shadow">
-        <h1 className="text-3xl font-semibold text-gray-800 text-center mb-8">Ficha de consentimiento</h1>
+        <h1 className="text-3xl font-semibold text-gray-800 text-center mb-8">Ficha de consentimiento para pestañas</h1>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           {/* INFORMACIÓN PERSONAL */}
@@ -166,7 +166,7 @@ export default function Page() {
 
           {/* HISTORIAL MÉDICO */}
           <div className="border-b pb-6">
-            <h2 className="text-xl font-semibold text-gray-700 mb-6">Historial Médico</h2>
+            <h2 className="text-xl font-semibold  text-gray-700 mb-6">Historial Médico</h2>
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
               {/* Primera columna */}

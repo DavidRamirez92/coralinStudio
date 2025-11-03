@@ -1,6 +1,5 @@
-// netlify/functions/submit.ts
 import type { Handler } from '@netlify/functions';
-import { ensureSchema, getPool } from '../../lib/pg'; // ruta desde coralin-studio/netlify/functions
+import { ensureSchema, getPool } from '../../lib/pg'; 
 import { randomUUID } from 'crypto';
 
 const handler: Handler = async (event) => {

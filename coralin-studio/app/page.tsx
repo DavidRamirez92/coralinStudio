@@ -73,13 +73,13 @@ export default function Page() {
   };
 
   return (
-    <main className="min-h-dvh bg-gray-50 py-10">
-      <div className="mx-auto max-w-4xl rounded-2xl bg-white p-8 shadow">
+    <main className="min-h-dvh py-10">
+      <div className="mx-auto max-w-4xl brand-card p-8">
         <h1 className="text-3xl font-semibold text-gray-800 text-center mb-8">Ficha de consentimiento para pestañas</h1>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           {/* INFORMACIÓN PERSONAL */}
-          <div className="border-b pb-6">
+          <div className="border-b subtle-divider pb-6">
             <h2 className="text-xl font-semibold text-gray-700 mb-6">Información Personal</h2>
             
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -165,7 +165,7 @@ export default function Page() {
           </div>
 
           {/* HISTORIAL MÉDICO */}
-          <div className="border-b pb-6">
+          <div className="border-b subtle-divider pb-6">
             <h2 className="text-xl font-semibold  text-gray-700 mb-6">Historial Médico</h2>
             
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -236,7 +236,7 @@ export default function Page() {
           </div>
 
           {/* SOBRE NOSOTROS */}
-          <div className="border-b pb-6">
+          <div className="border-b subtle-divider pb-6">
             <h2 className="text-xl font-semibold text-gray-700 mb-6">Sobre Nosotros</h2>
             
             <div>
@@ -319,7 +319,7 @@ export default function Page() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="w-full inline-flex items-center justify-center rounded-xl border bg-black px-6 py-3 text-white font-medium disabled:opacity-60 hover:bg-gray-800 transition-colors"
+            className="w-full inline-flex items-center justify-center px-6 py-3 font-medium"
           >
             {isSubmitting ? "Enviando…" : "Enviar formulario"}
           </button>

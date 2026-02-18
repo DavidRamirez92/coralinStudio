@@ -43,14 +43,14 @@ const handler: Handler = async (event) => {
     const reqStr = (v: unknown) => typeof v === "string" && v.trim().length > 0;
     const required = [
       "title",
-      "firstName",
+      "firstname",
       "address",
       "state",
       "phone",
-      "birthDate",
-      "postalCode",
+      "birthdate",
+      "postalcode",
       "email",
-      "howDidYouHear",
+      "howdidyouhear",
     ];
     for (const f of required) {
       if (!reqStr(data[f])) {

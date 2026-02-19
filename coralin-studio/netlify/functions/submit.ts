@@ -5,19 +5,19 @@ import { z } from "zod";
 
 const PayloadSchema = z.object({
   title: z.enum(["NB", "F", "M"]),
-  firstName: z.string().trim().min(1),
+  firstname: z.string().trim().min(1),
   address: z.string().trim().min(1),
   state: z.string().trim().min(1),
   phone: z.string().trim().min(1),
-  birthDate: z.string().trim().min(1),
-  postalCode: z.string().trim().min(1),
+  birthdate: z.string().trim().min(1),
+  postalcode: z.string().trim().min(1),
   email: z.string().trim().email(),
-  medicalConditions: z.array(z.string()).optional().default([]),
-  otherMedicalConditions: z.string().optional(),
-  eyeConditions: z.array(z.string()).optional().default([]),
-  otherEyeConditions: z.string().optional(),
-  howDidYouHear: z.enum(["recomendacion", "anuncio", "redes_sociales", "google", "otro"]),
-  otherHowDidYouHear: z.string().optional(),
+  medicalconditions: z.array(z.string()).optional().default([]),
+  othermedicalconditions: z.string().optional(),
+  eyeconditions: z.array(z.string()).optional().default([]),
+  othereyeconditions: z.string().optional(),
+  howdidyouhear: z.enum(["recomendacion", "anuncio", "redes_sociales", "google", "otro"]),
+  otherhowdidyouhear: z.string().optional(),
   agreement1: z.literal(true),
   agreement2: z.literal(true),
   agreement3: z.literal(true),
@@ -74,31 +74,33 @@ const handler: Handler = async (event) => {
 
     const form = parsed.data;
 
-    // "otro" en howDidYouHear (si viene texto lo anexamos)
-    let howDidYouHear: string = form.howDidYouHear;
-    if (howDidYouHear === "otro" && form.otherHowDidYouHear?.trim()) {
-      howDidYouHear = `otro: ${form.otherHowDidYouHear.trim()}`;
+    // "otro" en howdidyouhear (si viene texto lo anexamos)
+    let howdidyouhear: string = form.howdidyouhear;
+    if (howdidyouhear === "otro" && form.otherhowdidyouhear?.trim()) {
+      howdidyouhear = `otro: ${form.otherhowdidyouhear.trim()}`;
     }
 
-    const otherMedicalConditions = form.otherMedicalConditions?.trim() || null;
+    const othermedicalconditions = form.othermedicalconditions?.trim() || null;
 
-    const otherEyeConditions = form.otherEyeConditions?.trim() || null;
+    const othereyeconditions = form.othereyeconditions?.trim() || null;
 
-    // Payload: coincide con la tabla SQL que creaste (camelCase + receivedAt lo pone la DB)
+    // Payload: coincide exactamente con la tabla de Supabase (columnas en minúsculas)
     const payload = {
+      id: crypto.randomUUID(),
+      receivedat: new Date().toISOString(),
       title: form.title,
-      firstName: form.firstName,
+      firstname: form.firstname,
       address: form.address,
       state: form.state,
       phone: form.phone,
-      birthDate: form.birthDate,
-      postalCode: form.postalCode,
+      birthdate: form.birthdate,
+      postalcode: form.postalcode,
       email: form.email.toLowerCase(),
-      medicalConditions: form.medicalConditions,
-      otherMedicalConditions,
-      eyeConditions: form.eyeConditions,
-      otherEyeConditions,
-      howDidYouHear,
+      medicalconditions: form.medicalconditions,
+      othermedicalconditions,
+      eyeconditions: form.eyeconditions,
+      othereyeconditions,
+      howdidyouhear,
       agreement1: true,
       agreement2: true,
       agreement3: true,
@@ -107,7 +109,7 @@ const handler: Handler = async (event) => {
     const { data: row, error } = await supabase
       .from("submissions")
       .insert(payload)
-      .select('id, "receivedAt"')
+      .select("id, receivedat")
       .single();
 
     if (error) {

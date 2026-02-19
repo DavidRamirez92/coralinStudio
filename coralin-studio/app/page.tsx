@@ -8,23 +8,23 @@ import { zodResolver } from "@hookform/resolvers/zod";
 const FormSchema = z.object({
   // Información Personal
   title: z.enum(["NB", "F", "M"]),
-  firstName: z.string().min(3, "Requerido"),
+  firstname: z.string().min(3, "Requerido"),
   address: z.string().min(1, "Requerido"),
   state: z.string().min(1, "Requerido"),
   phone: z.string().min(1, "Requerido"),
-  birthDate: z.string().min(1, "Requerido"),
-  postalCode: z.string().min(1, "Requerido"),
+  birthdate: z.string().min(1, "Requerido"),
+  postalcode: z.string().min(1, "Requerido"),
   email: z.email("Email inválido"),
   
   // Historial médico
-  medicalConditions: z.array(z.string()).optional(),
-  otherMedicalConditions: z.string().optional(),
-  eyeConditions: z.array(z.string()).optional(),
-  otherEyeConditions: z.string().optional(),
+  medicalconditions: z.array(z.string()).optional(),
+  othermedicalconditions: z.string().optional(),
+  eyeconditions: z.array(z.string()).optional(),
+  othereyeconditions: z.string().optional(),
   
   // Sobre nosotros
-  howDidYouHear: z.enum(["recomendacion", "anuncio", "redes_sociales", "google", "otro"]),
-  otherHowDidYouHear: z.string().optional(),
+  howdidyouhear: z.enum(["recomendacion", "anuncio", "redes_sociales", "google", "otro"]),
+  otherhowdidyouhear: z.string().optional(),
   
   // Acuerdos
   agreement1: z.literal(true,"Debes aceptar este término"),
@@ -48,13 +48,13 @@ export default function Page() {
     resolver: zodResolver(FormSchema),
     defaultValues: {
       title: "NB",
-      medicalConditions: [],
-      eyeConditions: [],
-      howDidYouHear: "recomendacion"
+      medicalconditions: [],
+      eyeconditions: [],
+      howdidyouhear: "recomendacion"
     }
   });
 
-  const howDidYouHear = watch("howDidYouHear");
+  const howDidYouHear = watch("howdidyouhear");
 
   const onSubmit = async (data: FormValues) => {
     setStatus("idle");
@@ -96,9 +96,9 @@ export default function Page() {
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-600 mb-2">Nombre</label>
-                  <input {...register("firstName")} className="w-full rounded-lg border p-3 text-gray-800" />
-                  {errors.firstName && (
-                    <p className="mt-1 text-sm text-red-600">{errors.firstName.message}</p>
+                  <input {...register("firstname")} className="w-full rounded-lg border p-3 text-gray-800" />
+                  {errors.firstname && (
+                    <p className="mt-1 text-sm text-red-600">{errors.firstname.message}</p>
                   )}
                 </div>
                 
@@ -132,20 +132,20 @@ export default function Page() {
                 <div>
                   <label className="block text-sm font-medium text-gray-600 mb-2">Fecha de nacimiento</label>
                   <input
-                    {...register("birthDate")}
+                    {...register("birthdate")}
                     type="date"
                     className="w-full rounded-lg border p-3 text-gray-800"
                   />
-                  {errors.birthDate && (
-                    <p className="mt-1 text-sm text-red-600">{errors.birthDate.message}</p>
+                  {errors.birthdate && (
+                    <p className="mt-1 text-sm text-red-600">{errors.birthdate.message}</p>
                   )}
                 </div>
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-600 mb-2">CP</label>
-                  <input {...register("postalCode")} className="w-full rounded-lg border p-3 text-gray-800" />
-                  {errors.postalCode && (
-                    <p className="mt-1 text-sm text-red-600">{errors.postalCode.message}</p>
+                  <input {...register("postalcode")} className="w-full rounded-lg border p-3 text-gray-800" />
+                  {errors.postalcode && (
+                    <p className="mt-1 text-sm text-red-600">{errors.postalcode.message}</p>
                   )}
                 </div>
                 
@@ -180,21 +180,21 @@ export default function Page() {
                       <input
                         type="checkbox"
                         value={condition}
-                        {...register("medicalConditions")}
+                        {...register("medicalconditions")}
                         className="rounded border-gray-300"
                       />
                       <span className="text-sm text-gray-700">{condition}</span>
                     </label>
                   ))}
                 </div>
-                {errors.medicalConditions && (
-                  <p className="mt-2 text-sm text-red-600">{errors.medicalConditions.message}</p>
+                {errors.medicalconditions && (
+                  <p className="mt-2 text-sm text-red-600">{errors.medicalconditions.message}</p>
                 )}
                 
                 <div className="mt-4">
                   <label className="block text-sm font-medium text-gray-600 mb-2">Otro</label>
                   <input
-                    {...register("otherMedicalConditions")}
+                    {...register("othermedicalconditions")}
                     className="w-full rounded-lg border p-3 text-gray-800"
                     placeholder="Especificar otra condición"
                   />
@@ -212,21 +212,21 @@ export default function Page() {
                       <input
                         type="checkbox"
                         value={condition}
-                        {...register("eyeConditions")}
+                        {...register("eyeconditions")}
                         className="rounded border-gray-300"
                       />
                       <span className="text-sm text-gray-700">{condition}</span>
                     </label>
                   ))}
                 </div>
-                {errors.eyeConditions && (
-                  <p className="mt-2 text-sm text-red-600">{errors.eyeConditions.message}</p>
+                {errors.eyeconditions && (
+                  <p className="mt-2 text-sm text-red-600">{errors.eyeconditions.message}</p>
                 )}
                 
                 <div className="mt-4">
                   <label className="block text-sm font-medium text-gray-600 mb-2">Otro</label>
                   <input
-                    {...register("otherEyeConditions")}
+                    {...register("othereyeconditions")}
                     className="w-full rounded-lg border p-3 text-gray-800"
                     placeholder="Especificar otra condición"
                   />
@@ -243,7 +243,7 @@ export default function Page() {
               <label className="block text-sm font-medium text-gray-600 mb-3">
                 ¿Cómo supiste de nosotros?
               </label>
-              <select {...register("howDidYouHear")} className="w-full rounded-lg border p-3 text-gray-800 mb-4">
+              <select {...register("howdidyouhear")} className="w-full rounded-lg border p-3 text-gray-800 mb-4">
                 <option value="recomendacion">Recomendación</option>
                 <option value="anuncio">Anuncio</option>
                 <option value="redes_sociales">Redes sociales</option>
@@ -255,7 +255,7 @@ export default function Page() {
                 <div>
                   <label className="block text-sm font-medium text-gray-600 mb-2">Especificar</label>
                   <input
-                    {...register("otherHowDidYouHear")}
+                    {...register("otherhowdidyouhear")}
                     className="w-full rounded-lg border p-3 text-gray-800"
                     placeholder="Especificar cómo se enteró"
                   />

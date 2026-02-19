@@ -106,11 +106,7 @@ const handler: Handler = async (event) => {
       agreement3: true,
     };
 
-    const { data: row, error } = await supabase
-      .from("submissions")
-      .insert(payload)
-      .select("id, receivedat")
-      .single();
+    const { error } = await supabase.from("submissions").insert(payload);
 
     if (error) {
       return {
@@ -123,7 +119,13 @@ const handler: Handler = async (event) => {
     return {
       statusCode: 201,
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ok: true, submission: row }),
+      body: JSON.stringify({
+        ok: true,
+        submission: {
+          id: payload.id,
+          receivedat: payload.receivedat,
+        },
+      }),
     };
   } catch (err) {
     console.error("[submit] error", err);

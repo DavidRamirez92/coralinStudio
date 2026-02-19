@@ -40,9 +40,6 @@ export async function POST(req: Request) {
       ...data,
     };
 
-    // Inicializa esquema en Postgres (si no existe)
-    await ensureSchema();
-
     const pool = getPool();
     await pool.query(
       `INSERT INTO submissions (

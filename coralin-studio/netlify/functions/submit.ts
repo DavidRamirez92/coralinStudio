@@ -1,6 +1,28 @@
 // netlify/functions/submit.ts
 import type { Handler } from "@netlify/functions";
 import { createClient } from "@supabase/supabase-js";
+import { z } from "zod";
+
+const PayloadSchema = z.object({
+  title: z.enum(["NB", "F", "M"]),
+  firstName: z.string().trim().min(1),
+  address: z.string().trim().min(1),
+  state: z.string().trim().min(1),
+  phone: z.string().trim().min(1),
+  birthDate: z.string().trim().min(1),
+  postalCode: z.string().trim().min(1),
+  email: z.string().trim().email(),
+  medicalConditions: z.array(z.string()).optional().default([]),
+  otherMedicalConditions: z.string().optional(),
+  eyeConditions: z.array(z.string()).optional().default([]),
+  otherEyeConditions: z.string().optional(),
+  howDidYouHear: z.enum(["recomendacion", "anuncio", "redes_sociales", "google", "otro"]),
+  otherHowDidYouHear: z.string().optional(),
+  agreement1: z.literal(true),
+  agreement2: z.literal(true),
+  agreement3: z.literal(true),
+  honeypot: z.string().optional(),
+});
 
 const supabase = createClient(
   process.env.SUPABASE_URL ?? "",
@@ -39,84 +61,42 @@ const handler: Handler = async (event) => {
       };
     }
 
-    // Requeridos de texto
-    const reqStr = (v: unknown) => typeof v === "string" && v.trim().length > 0;
-    const required = [
-      "title",
-      "firstname",
-      "address",
-      "state",
-      "phone",
-      "birthdate",
-      "postalcode",
-      "email",
-      "howdidyouhear",
-    ];
-    for (const f of required) {
-      if (!reqStr(data[f])) {
-        return {
-          statusCode: 400,
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ error: `Campo inválido: ${f}` }),
-        };
-      }
-    }
-
-    // Booleans requeridos (deben ser true)
-    if (data.agreement1 !== true || data.agreement2 !== true || data.agreement3 !== true) {
+    const parsed = PayloadSchema.safeParse(data);
+    if (!parsed.success) {
+      const issue = parsed.error.issues[0];
+      const field = issue?.path?.[0] ? String(issue.path[0]) : "payload";
       return {
         statusCode: 400,
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ error: "Debes aceptar todos los términos" }),
+        body: JSON.stringify({ error: `Campo inválido: ${field}` }),
       };
     }
 
-    // Arrays (permitimos vacíos)
-    const toArray = (v: unknown) => {
-      if (Array.isArray(v)) return v.map(String);
-      if (typeof v === "string" && v.trim()) {
-        try {
-          const arr = JSON.parse(v);
-          return Array.isArray(arr) ? arr.map(String) : [];
-        } catch {
-          return [];
-        }
-      }
-      return [];
-    };
-
-    const medicalConditions = toArray(data.medicalConditions);
-    const eyeConditions = toArray(data.eyeConditions);
+    const form = parsed.data;
 
     // "otro" en howDidYouHear (si viene texto lo anexamos)
-    let howDidYouHear: string = String(data.howDidYouHear);
-    if (howDidYouHear === "otro" && typeof data.otherHowDidYouHear === "string" && data.otherHowDidYouHear.trim()) {
-      howDidYouHear = `otro: ${data.otherHowDidYouHear.trim()}`;
+    let howDidYouHear: string = form.howDidYouHear;
+    if (howDidYouHear === "otro" && form.otherHowDidYouHear?.trim()) {
+      howDidYouHear = `otro: ${form.otherHowDidYouHear.trim()}`;
     }
 
-    const otherMedicalConditions =
-      typeof data.otherMedicalConditions === "string" && data.otherMedicalConditions.trim()
-        ? data.otherMedicalConditions.trim()
-        : null;
+    const otherMedicalConditions = form.otherMedicalConditions?.trim() || null;
 
-    const otherEyeConditions =
-      typeof data.otherEyeConditions === "string" && data.otherEyeConditions.trim()
-        ? data.otherEyeConditions.trim()
-        : null;
+    const otherEyeConditions = form.otherEyeConditions?.trim() || null;
 
     // Payload: coincide con la tabla SQL que creaste (camelCase + receivedAt lo pone la DB)
     const payload = {
-      title: String(data.title).trim(),
-      firstName: String(data.firstName).trim(),
-      address: String(data.address).trim(),
-      state: String(data.state).trim(),
-      phone: String(data.phone).trim(),
-      birthDate: String(data.birthDate).trim(),
-      postalCode: String(data.postalCode).trim(),
-      email: String(data.email).trim().toLowerCase(),
-      medicalConditions,
+      title: form.title,
+      firstName: form.firstName,
+      address: form.address,
+      state: form.state,
+      phone: form.phone,
+      birthDate: form.birthDate,
+      postalCode: form.postalCode,
+      email: form.email.toLowerCase(),
+      medicalConditions: form.medicalConditions,
       otherMedicalConditions,
-      eyeConditions,
+      eyeConditions: form.eyeConditions,
       otherEyeConditions,
       howDidYouHear,
       agreement1: true,
